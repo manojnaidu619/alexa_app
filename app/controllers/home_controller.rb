@@ -1,10 +1,10 @@
 class HomeController < ApplicationController
   #before_action :validate_request
-  skip_before_action :verify_authenticity_token, only: [:posting], raise: false
+  #skip_before_action :verify_authenticity_token, only: [:posting]
   def posting
-    if AlexaVerifier::InvalidCertificateURIError or AlexaVerifier::InvalidCertificateError or AlexaVerifier::InvalidRequestError 
-      render json: {message: 'Not verified'}, status: :unprocessable_entity
-    else
+    #if AlexaVerifier::InvalidCertificateURIError #or AlexaVerifier::InvalidCertificateError or AlexaVerifier::InvalidRequestError
+    #  render json: {message: 'Not verified'}, status: :unprocessable_entity
+    #else
     @pickuplines = [
     'Are you sure you’re not tired? You’ve been running through my mind all day.',
     'I must be in a museum, because you truly are a work of art.',
@@ -76,7 +76,7 @@ class HomeController < ApplicationController
   "sessionAttributes": {}
 }
     render json: @output
-   end
+   #end
  end
 
    #def validate_request
