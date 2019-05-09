@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   def index
-    @hello = 'first test line'
-    @out = {'version': '1.0', 'response': { 'outputSpeech': {'type': 'PlainText', 'text': @hello}}}
+    @hello = 'first test'
+    @out = {response: { outputSpeech: {type: 'SSML', ssml: "<speak>#{@hello}</speak>"}, shouldEndSession: true}, version: '1.0', sessionAttributes: {}}
     render json: @out
    end
 end
