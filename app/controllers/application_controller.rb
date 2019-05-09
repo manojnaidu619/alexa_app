@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::API
   #before_action :parse_request
-
   #def parse_request
   #    @request = request.headers
       #@app_id = 'amzn1.ask.skill.3638787d-d939-46d1-956a-56c10c64749c'

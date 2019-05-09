@@ -19,6 +19,8 @@ gem 'where_is_ISS'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 gem 'rb-readline'
+gem 'rack'
+gem 'alexa_verifier'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'bundler'
