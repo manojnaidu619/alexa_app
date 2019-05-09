@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  before_action :validate_request
   def create
     @pickuplines = [
     'Are you sure you’re not tired? You’ve been running through my mind all day.',
@@ -59,7 +60,7 @@ class HomeController < ApplicationController
   ]
   @line = @pickuplines.sample
     @output = {
-  "response": {
+  {}"response": {
     "outputSpeech": {
       "type": "PlainText",
       "text": @line
@@ -70,6 +71,13 @@ class HomeController < ApplicationController
   "version": "1.0",
   "sessionAttributes": {}
 }
-    render json: @output
+    render json: request.headers
+   end
+
+   private
+
+   def validate_request
+     render json: {message: 'Not accessible'}, status: 403 unless request.body.read
+     puts request.raw_post
    end
 end
