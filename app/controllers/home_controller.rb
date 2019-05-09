@@ -77,7 +77,8 @@ class HomeController < ApplicationController
   "sessionAttributes": {}
 }
     render json: request.headers['SignatureCertChainUrl']
-
+    logger.info('SignatureCertChainUrl' + request.headers['SignatureCertChainUrl'].to_s)
+    logger.info('Signature' + request.headers['Signature'].to_s)
 
    #end
  end
