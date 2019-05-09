@@ -1,10 +1,10 @@
 class HomeController < ApplicationController
   def create
-    @a = {
+    @output = {
   "response": {
     "outputSpeech": {
       "type": "SSML",
-      "ssml": "<speak>Welcome to the Alexa Skills Kit, you can say hello</speak>"
+      "ssml": "<speak>'#{Iss.track}'</speak>"
     },
 
     "shouldEndSession": true
@@ -12,6 +12,6 @@ class HomeController < ApplicationController
   "version": "1.0",
   "sessionAttributes": {}
 }
-    render json: @a
+    render json: @output
    end
 end
