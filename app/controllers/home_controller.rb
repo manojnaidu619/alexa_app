@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     #else
     @sign_cert = request.headers['SignatureCertChainUrl'].to_s
     @sign = request.headers['Signature'].to_s
-    if ( @sign_cert and @sign and @sign_cert == 'https://s3.amazonaws.com/echo.api/echo-api-cert-6-ats.pem' ){
+    if (@sign_cert and @sign and @sign_cert == 'https://s3.amazonaws.com/echo.api/echo-api-cert-6-ats.pem')
       @pickuplines = [
       'Are you sure you’re not tired? You’ve been running through my mind all day.',
       'I must be in a museum, because you truly are a work of art.',
@@ -66,23 +66,24 @@ class HomeController < ApplicationController
       "Are you from Russia? ‘Cause you’re russian my heart rate!"
     ]
     @line = @pickuplines.sample
-      @output = {
-    "response": {
-      "outputSpeech": {
-        "type": "PlainText",
-        "text": @line
-      },
 
-      "shouldEndSession": true
-    },
-    "version": "1.0",
-    "sessionAttributes": {}
+    @output = {
+      version: '1.0',
+      response: {
+        outputSpeech: {
+          type: 'PlainText',
+          text: @line
+        },
+        "shouldEndSession": true
+      }
     }
-      render json: @output
-    }
-  else{
+
+    render json: @output
+
+    else
       render json: {message: 'Not verified'}, status: :unprocessable_entity
-     }
+    end
+
 
     #request.headers['SignatureCertChainUrl']
     #logger.info('SignatureCertChainUrl' + request.headers['SignatureCertChainUrl'].to_s)
