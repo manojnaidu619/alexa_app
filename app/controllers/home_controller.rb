@@ -81,7 +81,7 @@ class HomeController < ApplicationController
     render json: @output
 
     else
-      render json: {message: 'Not verified'}, status: :unprocessable_entity
+      render json: {message: 'Not verified'}, status: 400
     end
 
 
