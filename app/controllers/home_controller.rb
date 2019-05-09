@@ -3,8 +3,8 @@ class HomeController < ApplicationController
     @output = {
   "response": {
     "outputSpeech": {
-      "type": "SSML",
-      "ssml": "<speak>'#{Iss.track}'</speak>"
+      "type": "PlainText",
+      "text": Iss.track
     },
 
     "shouldEndSession": true
