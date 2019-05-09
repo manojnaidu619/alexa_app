@@ -5,6 +5,7 @@ class HomeController < ApplicationController
     #if AlexaVerifier::InvalidCertificateURIError #or AlexaVerifier::InvalidCertificateError or AlexaVerifier::InvalidRequestError
     #  render json: {message: 'Not verified'}, status: :unprocessable_entity
     #else
+    @head = request.headers
     @pickuplines = [
     'Are you sure you’re not tired? You’ve been running through my mind all day.',
     'I must be in a museum, because you truly are a work of art.',
@@ -75,7 +76,9 @@ class HomeController < ApplicationController
   "version": "1.0",
   "sessionAttributes": {}
 }
-    render json: @output
+    render json: request.headers['SignatureCertChainUrl']
+
+
    #end
  end
 
