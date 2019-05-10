@@ -8,13 +8,28 @@ class HomeController < ApplicationController
     #@sign_cert = request.headers['SignatureCertChainUrl'].to_s
     #@sign = request.headers['Signature'].to_s
     #if (@sign_cert and @sign and @sign_cert == 'https://s3.amazonaws.com/echo.api/echo-api-cert-6-ats.pem')
-    signature = Base64.decode64(request.headers["Signature"]).to_s
+    url = request.headers["SignatureCertChainUrl"]
+    encoded_url = URI.encode(url)
+    x = URI.parse(encoded_url)
+    raw = open(x).read
+    certificate = OpenSSL::X509::Certificate.new
+    raw signature = request.headers["Signature"]
+    digest = Digest::SHA1.hexdigest request.body.read
     digest = OpenSSL::Digest.new('sha1', request.body.read)
-    if certificate.public_key.verify digest, signature, request.body.read
-      Rails.logger.info "Alexa :: valid"
+    digest = OpenSSL::Digest::SHA1.new
+    Rails.logger.info digest
+    Rails.logger.info request.body.read
+    if certificate.public_key.verify digest and Base64.decode64(signature).to_s and request.body.read
+      Rails.logger.info 'Valid'
     else
-      Rails.logger.info "Alexa :: invalid"
+     begin raise 'A test exception.'
+      rescue Exception => e
+      response.status = 400
+      render :text => ({:error=>"Certificate Isn't Valid - Didn't Pass signature match"}).to_json.html_safe,
+      :status => 400
+      end
     end
+
       @pickuplines = [
       'Are you sure you’re not tired? You’ve been running through my mind all day.',
       'I must be in a museum, because you truly are a work of art.',
