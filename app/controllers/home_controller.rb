@@ -12,7 +12,7 @@ class HomeController < ApplicationController
     encoded_url = URI.encode(url)
     x = URI.parse(encoded_url)
     raw = open(x).read
-    certificate = OpenSSL::X509::Certificate.new
+    certificate = OpenSSL::X509::Certificate.new raw
     signature = request.headers["Signature"]
     digest = Digest::SHA1.hexdigest request.body.read
     digest = OpenSSL::Digest.new('sha1', request.body.read)
