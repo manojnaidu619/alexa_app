@@ -21,86 +21,89 @@ class HomeController < ApplicationController
     Rails.logger.info request.body.read
     if certificate and certificate.public_key.verify digest and Base64.decode64(signature).to_s and request.body.read
      Rails.logger.info 'Valid'
+     line_output
     else
      begin raise 'A test exception.'
       rescue Exception => e
-      response.status = 400
-      render :text => ({:error=>"Certificate Isn't Valid - Didn't Pass signature match"}).to_json.html_safe,
-      :status => 400
+      render json: {error:"Certificate Isn't Valid - Didn't Pass signature match"},
+      status: 400
       end
     end
 
-      @pickuplines = [
-      'Are you sure you’re not tired? You’ve been running through my mind all day.',
-      'I must be in a museum, because you truly are a work of art.',
-      "Thank god I'm wearing gloves because you are too hot to handle.",
-      "If a fat man puts you in a bag at night, don't worry I told Santa I wanted you for Christmas.",
-      'Are you a 90 degree angle? Cause you are looking right!',
-      'Your hand looks heavy. Here, let me hold it for you!',
-      "If looks could kill, you'd be a weapon of mass destruction.",
-      'Do you have a tan, or do you always look this hot?',
-      "If you were a fruit you'd be a fineapple.",
-      "Did you swallow magnets? Cause you're attractive.",
-      'You must be a ninja, because you snuck into my heart',
-      "Did you hear of the new disease called beautiful, I think you're infected.",
-      "If you were a vegetable you'd be a cutecumber.",
-      "Did your licence get suspended for driving all these guys crazy?",
-      "You’re so sweet, you’re giving me a toothache.",
-      "If I could rearrange the alphabet, I’d put U and I together.",
-      'Excuse me, would you like a raisin? No? How about a date then?',
-      "Besides being drop-dead gorgeous, what do you do for a living?",
-      "Let’s commit the perfect crime. I’ll steal your heart, and you steal mine.",
-      "Excuse me… Do you have a pen?. Good, write down my number.",
-      "I would offer you a coffee, but you’re already smokin’ hot.",
-      "Are you a hurricane? Because you’re blowing me away.",
-      "You dropped something. My jaw!",
-      "If you were a flower you’d be a daaaaaamnnn-delion.",
-      "If your heart was a prison, I would like to be sentenced for life.",
-      "Are you parents bakers? Because you are a cutie pie.",
-      "Stand still. so I can pick you up!",
-      "You shouldn’t wear makeup. It’s messing with perfection",
-      "When God made you, he was showing off",
-      " Would you hold my hand, while I go for a walk?",
-      "You’re so hot, you’d make the devil sweat",
-      "Excuse me, could you please dial down your hotness. it’s causing global warming",
-      "I’m learning about important dates in history. Wanna be one of them?",
-      "Have you been covered in bees recently?. I just assumed, because you look sweeter than honey.",
-      "Let me guess, your middle name is Gillette, right?. Because you’re the best a man can get.",
-      "There's side view, rear view and you know what else?. I loview.",
-      "I value my breath so it would be nice if you didn't take it away every time you walked past.",
-      "If nothing lasts forever, will you be my nothing?",
-      "Nice to meet you, I’m victim and you are... gorgeous!",
-      "Is there an airport nearby or is it my heart taking off?",
-      "If my heart were to fly, your soul would be my airport.",
-      "Your tag is showing, it says made in heaven.",
-      "I never believed in heaven until I saw you.",
-      "You are so sweet you could put Hershey’s out of business.",
-      "Am I at the end of a rainbow? I just found treasure.",
-      "The only thing your eyes haven’t told me is your name.",
-      "What’s wrong? You’re looking a little sad and gloomy. What you need is some Vitamin me.",
-      "How about you come live in my heart and pay no rent?",
-      "Are you lost?. Because heaven’s a long way of here.",
-      "Excuse me, I think you have something in your eye. Oh wait, it’s just a sparkle.",
-      "I am going to complain to Spotify about you not being this weeks hottest single.",
-      "Are you a volcano?. Because i lava you",
-      "Are you netflix?. Because i could watch you for hours.",
-      "Are you the sun?. Because you’re so beautiful it’s blinding me.",
-      "Are you from Russia? ‘Cause you’re russian my heart rate!"
-    ]
-    @line = @pickuplines.sample
+ def line_output
+   @pickuplines = [
+   'Are you sure you’re not tired? You’ve been running through my mind all day.',
+   'I must be in a museum, because you truly are a work of art.',
+   "Thank god I'm wearing gloves because you are too hot to handle.",
+   "If a fat man puts you in a bag at night, don't worry I told Santa I wanted you for Christmas.",
+   'Are you a 90 degree angle? Cause you are looking right!',
+   'Your hand looks heavy. Here, let me hold it for you!',
+   "If looks could kill, you'd be a weapon of mass destruction.",
+   'Do you have a tan, or do you always look this hot?',
+   "If you were a fruit you'd be a fineapple.",
+   "Did you swallow magnets? Cause you're attractive.",
+   'You must be a ninja, because you snuck into my heart',
+   "Did you hear of the new disease called beautiful, I think you're infected.",
+   "If you were a vegetable you'd be a cutecumber.",
+   "Did your licence get suspended for driving all these guys crazy?",
+   "You’re so sweet, you’re giving me a toothache.",
+   "If I could rearrange the alphabet, I’d put U and I together.",
+   'Excuse me, would you like a raisin? No? How about a date then?',
+   "Besides being drop-dead gorgeous, what do you do for a living?",
+   "Let’s commit the perfect crime. I’ll steal your heart, and you steal mine.",
+   "Excuse me… Do you have a pen?. Good, write down my number.",
+   "I would offer you a coffee, but you’re already smokin’ hot.",
+   "Are you a hurricane? Because you’re blowing me away.",
+   "You dropped something. My jaw!",
+   "If you were a flower you’d be a daaaaaamnnn-delion.",
+   "If your heart was a prison, I would like to be sentenced for life.",
+   "Are you parents bakers? Because you are a cutie pie.",
+   "Stand still. so I can pick you up!",
+   "You shouldn’t wear makeup. It’s messing with perfection",
+   "When God made you, he was showing off",
+   " Would you hold my hand, while I go for a walk?",
+   "You’re so hot, you’d make the devil sweat",
+   "Excuse me, could you please dial down your hotness. it’s causing global warming",
+   "I’m learning about important dates in history. Wanna be one of them?",
+   "Have you been covered in bees recently?. I just assumed, because you look sweeter than honey.",
+   "Let me guess, your middle name is Gillette, right?. Because you’re the best a man can get.",
+   "There's side view, rear view and you know what else?. I loview.",
+   "I value my breath so it would be nice if you didn't take it away every time you walked past.",
+   "If nothing lasts forever, will you be my nothing?",
+   "Nice to meet you, I’m victim and you are... gorgeous!",
+   "Is there an airport nearby or is it my heart taking off?",
+   "If my heart were to fly, your soul would be my airport.",
+   "Your tag is showing, it says made in heaven.",
+   "I never believed in heaven until I saw you.",
+   "You are so sweet you could put Hershey’s out of business.",
+   "Am I at the end of a rainbow? I just found treasure.",
+   "The only thing your eyes haven’t told me is your name.",
+   "What’s wrong? You’re looking a little sad and gloomy. What you need is some Vitamin me.",
+   "How about you come live in my heart and pay no rent?",
+   "Are you lost?. Because heaven’s a long way of here.",
+   "Excuse me, I think you have something in your eye. Oh wait, it’s just a sparkle.",
+   "I am going to complain to Spotify about you not being this weeks hottest single.",
+   "Are you a volcano?. Because i lava you",
+   "Are you netflix?. Because i could watch you for hours.",
+   "Are you the sun?. Because you’re so beautiful it’s blinding me.",
+   "Are you from Russia? ‘Cause you’re russian my heart rate!"
+ ]
+ @line = @pickuplines.sample
 
-    @output = {
-      version: '1.0',
-      response: {
-        outputSpeech: {
-          type: 'PlainText',
-          text: @line
-        },
-        "shouldEndSession": true
-      }
-    }.to_json
+ @output = {
+   version: '1.0',
+   response: {
+     outputSpeech: {
+       type: 'PlainText',
+       text: @line
+     },
+     "shouldEndSession": true
+   }
+ }
 
-    #render json: @output
+ render json: @output
+end
+
 
     #else
     #  render json: {message: 'Not verified'}, status: 400
