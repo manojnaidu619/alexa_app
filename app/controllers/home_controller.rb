@@ -9,17 +9,17 @@ class HomeController < ApplicationController
     #@sign = request.headers['Signature'].to_s
     #if (@sign_cert and @sign and @sign_cert == 'https://s3.amazonaws.com/echo.api/echo-api-cert-6-ats.pem')
     url = request.headers["SignatureCertChainUrl"]
-    encoded_url = URI.encode(url)
-    x = URI.parse(encoded_url)
-    raw = open(x).read
-    certificate = OpenSSL::X509::Certificate.new raw
+    encoded_url = URI.encode(url) if url
+    x = URI.parse(encoded_url) if encoded_url
+    raw = open(x).read if x
+    certificate = OpenSSL::X509::Certificate.new raw if raw
     signature = request.headers["Signature"]
     digest = Digest::SHA1.hexdigest request.body.read
     digest = OpenSSL::Digest.new('sha1', request.body.read)
     digest = OpenSSL::Digest::SHA1.new
     Rails.logger.info digest
     Rails.logger.info request.body.read
-    if certificate.public_key.verify digest and Base64.decode64(signature).to_s and request.body.read
+    if certificate and certificate.public_key.verify digest and Base64.decode64(signature).to_s and request.body.read
      Rails.logger.info 'Valid'
     else
      begin raise 'A test exception.'
@@ -98,9 +98,9 @@ class HomeController < ApplicationController
         },
         "shouldEndSession": true
       }
-    }
+    }.to_json
 
-    render json: @output
+    #render json: @output
 
     #else
     #  render json: {message: 'Not verified'}, status: 400
