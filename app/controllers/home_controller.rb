@@ -8,28 +8,6 @@ class HomeController < ApplicationController
     #@sign_cert = request.headers['SignatureCertChainUrl'].to_s
     #@sign = request.headers['Signature'].to_s
     #if (@sign_cert and @sign and @sign_cert == 'https://s3.amazonaws.com/echo.api/echo-api-cert-6-ats.pem')
-    url = request.headers["SignatureCertChainUrl"]
-    encoded_url = URI.encode(url) 
-    x = URI.parse(encoded_url)
-    raw = open(x).read
-    certificate = OpenSSL::X509::Certificate.new raw
-    signature = request.headers["Signature"]
-    digest = Digest::SHA1.hexdigest request.body.read
-    digest = OpenSSL::Digest.new('sha1', request.body.read)
-    digest = OpenSSL::Digest::SHA1.new
-    Rails.logger.info digest
-    Rails.logger.info request.body.read
-    if certificate and certificate.public_key.verify digest and Base64.decode64(signature).to_s and request.body.read
-     Rails.logger.info 'Valid'
-     line_output
-    else
-     begin raise 'A test exception.'
-      rescue Exception => e
-      render json: {error:"Certificate Isn't Valid - Didn't Pass signature match"},
-      status: 400
-      end
-    end
-
  def line_output
    @pickuplines = [
    'Are you sure you’re not tired? You’ve been running through my mind all day.',
@@ -104,6 +82,7 @@ class HomeController < ApplicationController
  render json: @output
 end
 
+line_output
 
     #else
     #  render json: {message: 'Not verified'}, status: 400
