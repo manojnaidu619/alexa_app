@@ -9,10 +9,10 @@ class HomeController < ApplicationController
     #@sign = request.headers['Signature'].to_s
     #if (@sign_cert and @sign and @sign_cert == 'https://s3.amazonaws.com/echo.api/echo-api-cert-6-ats.pem')
     url = request.headers["SignatureCertChainUrl"]
-    encoded_url = URI.encode(url) if url
-    x = URI.parse(encoded_url) if encoded_url
-    raw = open(x).read if x
-    certificate = OpenSSL::X509::Certificate.new raw if raw
+    encoded_url = URI.encode(url) 
+    x = URI.parse(encoded_url)
+    raw = open(x).read
+    certificate = OpenSSL::X509::Certificate.new raw
     signature = request.headers["Signature"]
     digest = Digest::SHA1.hexdigest request.body.read
     digest = OpenSSL::Digest.new('sha1', request.body.read)
