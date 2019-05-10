@@ -13,14 +13,14 @@ class HomeController < ApplicationController
     x = URI.parse(encoded_url)
     raw = open(x).read
     certificate = OpenSSL::X509::Certificate.new
-    raw signature = request.headers["Signature"]
+    signature = request.headers["Signature"]
     digest = Digest::SHA1.hexdigest request.body.read
     digest = OpenSSL::Digest.new('sha1', request.body.read)
     digest = OpenSSL::Digest::SHA1.new
     Rails.logger.info digest
     Rails.logger.info request.body.read
     if certificate.public_key.verify digest and Base64.decode64(signature).to_s and request.body.read
-      Rails.logger.info 'Valid'
+     Rails.logger.info 'Valid'
     else
      begin raise 'A test exception.'
       rescue Exception => e
