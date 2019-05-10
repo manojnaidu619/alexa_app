@@ -5,9 +5,16 @@ class HomeController < ApplicationController
     #if AlexaVerifier::InvalidCertificateURIError #or AlexaVerifier::InvalidCertificateError or AlexaVerifier::InvalidRequestError
     #  render json: {message: 'Not verified'}, status: :unprocessable_entity
     #else
-    @sign_cert = request.headers['SignatureCertChainUrl'].to_s
-    @sign = request.headers['Signature'].to_s
-    if (@sign_cert and @sign and @sign_cert == 'https://s3.amazonaws.com/echo.api/echo-api-cert-6-ats.pem')
+    #@sign_cert = request.headers['SignatureCertChainUrl'].to_s
+    #@sign = request.headers['Signature'].to_s
+    #if (@sign_cert and @sign and @sign_cert == 'https://s3.amazonaws.com/echo.api/echo-api-cert-6-ats.pem')
+    signature = Base64.decode64(request.headers["Signature"]).to_s
+    digest = OpenSSL::Digest.new('sha1', request.body.read)
+    if certificate.public_key.verify digest, signature, request.body.read
+      Rails.logger.info "Alexa :: valid"
+    else
+      Rails.logger.info "Alexa :: invalid"
+    end
       @pickuplines = [
       'Are you sure you’re not tired? You’ve been running through my mind all day.',
       'I must be in a museum, because you truly are a work of art.',
@@ -80,9 +87,9 @@ class HomeController < ApplicationController
 
     render json: @output
 
-    else
-      render json: {message: 'Not verified'}, status: 400
-    end
+    #else
+    #  render json: {message: 'Not verified'}, status: 400
+    #end
 
 
     #request.headers['SignatureCertChainUrl']
