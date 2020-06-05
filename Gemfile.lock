@@ -139,7 +139,7 @@ GEM
       mimer_plus (~> 0.0.4)
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.3)
+    websocket-extensions (0.1.5)
     where_is_ISS (0.2.3)
 
 PLATFORMS
